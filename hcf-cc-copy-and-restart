@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -ex
+
+[[ $(whoami) == vagrant ]] && { echo Cannot run inside vagrant; exit 1; }
+
+vagrant_id=${VAGRANT_ID:?required; vagrant id for hcf. See: vagrant global-status}
+
+file_paths=(
+  config/routes.rb
+  app/controllers/v3/openapi_controller.rb
+)
+repo_path='/home/vagrant/hcf/cloud_controller_ng'
+share_path='/home/vagrant/.run/store/api-data'
+
+mkdir -p share
+for file_path in "${file_paths[@]}"; do
+  ruby -c "$file_path"
+  cp "$file_path" share
+done
+vagrant ssh "$vagrant_id" -c "sudo cp $repo_path/share/* $share_path/"
+
+# Restart the CC
+vagrant ssh "$vagrant_id" -c "docker exec api-int pkill -f 'ruby.*yml'" || true
+
+set +x
+echo
+printf Starting
+count=0
+while true; do
+  sleep 2
+  [[ $(cf curl /v3/apps) =~ ^\{ ]] && break
+  printf .
+  if [[ $((++count)) -ge 10 ]]; then
+    echo Failed
+    exit 1
+  fi
+done
+echo Done

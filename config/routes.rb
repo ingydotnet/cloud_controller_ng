@@ -1,16 +1,27 @@
 Rails.application.routes.draw do
   # apps
-  get '/apps', to: 'apps_v3#index'
-  post '/apps', to: 'apps_v3#create'
-  get '/apps/:guid', to: 'apps_v3#show'
-  put '/apps/:guid', to: 'apps_v3#update'
-  patch '/apps/:guid', to: 'apps_v3#update'
-  delete '/apps/:guid', to: 'apps_v3#destroy'
-  put '/apps/:guid/start', to: 'apps_v3#start'
-  put '/apps/:guid/stop', to: 'apps_v3#stop'
-  get '/apps/:guid/env', to: 'apps_v3#show_environment'
-  put '/apps/:guid/droplets/current', to: 'apps_v3#assign_current_droplet'
-  get '/apps/:guid/droplets/current', to: 'apps_v3#current_droplet'
+  get '/apps', to: 'apps_v3#index',
+    summary: 'List all apps'
+  post '/apps', to: 'apps_v3#create',
+    summary: 'Create a new app'
+  get '/apps/:guid', to: 'apps_v3#show',
+    summary: 'Get an app'
+  put '/apps/:guid', to: 'apps_v3#update',
+    summary: 'Update an app'
+  patch '/apps/:guid', to: 'apps_v3#update',
+    summary: 'Patch an app'
+  delete '/apps/:guid', to: 'apps_v3#destroy',
+    summary: 'Destroy an app'
+  put '/apps/:guid/start', to: 'apps_v3#start',
+    summary: 'Start an app'
+  put '/apps/:guid/stop', to: 'apps_v3#stop',
+    summary: 'Stop an app'
+  get '/apps/:guid/env', to: 'apps_v3#show_environment',
+    summary: 'Get an app environment'
+  put '/apps/:guid/droplets/current', to: 'apps_v3#assign_current_droplet',
+    summary: 'Set current droplet for app'
+  get '/apps/:guid/droplets/current', to: 'apps_v3#current_droplet',
+    summary: 'Get current droplet'
 
   # processes
   get '/processes', to: 'processes#index'
@@ -63,6 +74,9 @@ Rails.application.routes.draw do
   get '/service_bindings/:guid', to: 'service_bindings#show'
   get '/service_bindings', to: 'service_bindings#index'
   delete '/service_bindings/:guid', to: 'service_bindings#destroy'
+
+  # openapi
+  get '/openapi', to: 'openapi#show'
 
   # errors
   match '404', to: 'errors#not_found', via: :all
