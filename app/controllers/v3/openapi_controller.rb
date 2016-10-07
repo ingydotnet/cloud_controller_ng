@@ -37,7 +37,8 @@ class OpenapiController < ApplicationController
       @path = route.path.spec.to_s.
         sub(/\(\.:format\)$/, '').
         gsub(/:(\w+)/, '{\1}')
-      break if @path == "/processes"  #XXX
+
+      break if @path == "/openapi"
 
       @method = route.constraints[:request_method].to_s.
         sub(/.*\^/, '').

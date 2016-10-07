@@ -24,59 +24,99 @@ Rails.application.routes.draw do
     summary: 'Get current droplet'
 
   # processes
-  get '/processes', to: 'processes#index'
-  get '/processes/:process_guid', to: 'processes#show'
-  patch '/processes/:process_guid', to: 'processes#update'
-  delete '/processes/:process_guid/instances/:index', to: 'processes#terminate'
-  put '/processes/:process_guid/scale', to: 'processes#scale'
-  get '/processes/:process_guid/stats', to: 'processes#stats'
-  get '/apps/:app_guid/processes', to: 'processes#index'
-  get '/apps/:app_guid/processes/:type', to: 'processes#show'
-  put '/apps/:app_guid/processes/:type/scale', to: 'processes#scale'
-  delete '/apps/:app_guid/processes/:type/instances/:index', to: 'processes#terminate'
-  get '/apps/:app_guid/processes/:type/stats', to: 'processes#stats'
+  get '/processes', to: 'processes#index',
+    summary: 'List all processes'
+  get '/processes/:process_guid', to: 'processes#show',
+    summary: 'Get a process'
+  patch '/processes/:process_guid', to: 'processes#update',
+    summary: 'Patch a process'
+  delete '/processes/:process_guid/instances/:index', to: 'processes#terminate',
+    summary: 'Terminate a process'
+  put '/processes/:process_guid/scale', to: 'processes#scale',
+    summary: 'Scale a process'
+  get '/processes/:process_guid/stats', to: 'processes#stats',
+    summary: 'Get process statistics'
+  get '/apps/:app_guid/processes', to: 'processes#index',
+    summary: 'List all processes for an app'
+  get '/apps/:app_guid/processes/:type', to: 'processes#show',
+    summary: 'Show process for an app'
+  put '/apps/:app_guid/processes/:type/scale', to: 'processes#scale',
+    summary: 'Update scale for app process'
+  delete '/apps/:app_guid/processes/:type/instances/:index', to: 'processes#terminate',
+    summary: 'Terminate process instance for an app'
+  get '/apps/:app_guid/processes/:type/stats', to: 'processes#stats',
+    summary: 'Get process statistics for an app'
 
   # packages
-  get '/packages', to: 'packages#index'
-  get '/packages/:guid', to: 'packages#show'
-  post '/packages/:guid/upload', to: 'packages#upload'
-  get '/packages/:guid/download', to: 'packages#download'
-  delete '/packages/:guid', to: 'packages#destroy'
-  get '/apps/:app_guid/packages', to: 'packages#index'
-  post '/apps/:app_guid/packages', to: 'packages#create'
+  get '/packages', to: 'packages#index',
+    summary: 'List all packages'
+  get '/packages/:guid', to: 'packages#show',
+    summary: 'Show a package'
+  post '/packages/:guid/upload', to: 'packages#upload',
+    summary: 'Upload a package'
+  get '/packages/:guid/download', to: 'packages#download',
+    summary: 'Download a package'
+  delete '/packages/:guid', to: 'packages#destroy',
+    summary: 'Destroy a package'
+  get '/apps/:app_guid/packages', to: 'packages#index',
+    summary: 'List all packages for an app'
+  post '/apps/:app_guid/packages', to: 'packages#create',
+    summary: 'Create a new package for an app'
 
   # droplets
-  post '/packages/:package_guid/droplets', to: 'droplets#create'
-  post '/droplets/:guid/copy', to: 'droplets#copy'
-  get '/droplets', to: 'droplets#index'
-  get '/droplets/:guid', to: 'droplets#show'
-  delete '/droplets/:guid', to: 'droplets#destroy'
-  get '/apps/:app_guid/droplets', to: 'droplets#index'
-  get '/packages/:package_guid/droplets', to: 'droplets#index'
+  post '/packages/:package_guid/droplets', to: 'droplets#create',
+    summary: 'Create a new droplet for a package'
+  post '/droplets/:guid/copy', to: 'droplets#copy',
+    summary: 'Copy a droplet'
+  get '/droplets', to: 'droplets#index',
+    summary: 'List all droplets'
+  get '/droplets/:guid', to: 'droplets#show',
+    summary: 'Show a droplet'
+  delete '/droplets/:guid', to: 'droplets#destroy',
+    summary: 'Destroy a droplet'
+  get '/apps/:app_guid/droplets', to: 'droplets#index',
+    summary: 'List droplets for an app'
+  get '/packages/:package_guid/droplets', to: 'droplets#index',
+    summary: 'List droplets for a package'
 
   # route_mappings
-  post '/route_mappings', to: 'route_mappings#create'
-  get '/route_mappings', to: 'route_mappings#index'
-  get '/route_mappings/:route_mapping_guid', to: 'route_mappings#show'
-  delete '/route_mappings/:route_mapping_guid', to: 'route_mappings#destroy'
-  get '/apps/:app_guid/route_mappings', to: 'route_mappings#index'
+  post '/route_mappings', to: 'route_mappings#create',
+    summary: 'Create a new route mapping'
+  get '/route_mappings', to: 'route_mappings#index',
+    summary: 'List all route mappings'
+  get '/route_mappings/:route_mapping_guid', to: 'route_mappings#show',
+    summary: 'Show a route mapping'
+  delete '/route_mappings/:route_mapping_guid', to: 'route_mappings#destroy',
+    summary: 'Destroy a route mapping'
+  get '/apps/:app_guid/route_mappings', to: 'route_mappings#index',
+    summary: 'List all route mappings for an app'
 
   # tasks
-  get '/tasks', to: 'tasks#index'
-  get '/tasks/:task_guid', to: 'tasks#show'
-  put '/tasks/:task_guid/cancel', to: 'tasks#cancel'
+  get '/tasks', to: 'tasks#index',
+    summary: 'List all tasks'
+  get '/tasks/:task_guid', to: 'tasks#show',
+    summary: 'Show a task'
+  put '/tasks/:task_guid/cancel', to: 'tasks#cancel',
+    summary: 'Cancel a task'
 
-  post '/apps/:app_guid/tasks', to: 'tasks#create'
-  get '/apps/:app_guid/tasks', to: 'tasks#index'
+  post '/apps/:app_guid/tasks', to: 'tasks#create',
+    summary: 'Create a new task for an app'
+  get '/apps/:app_guid/tasks', to: 'tasks#index',
+    summary: 'List all tasks for an app'
 
   # service_bindings
-  post '/service_bindings', to: 'service_bindings#create'
-  get '/service_bindings/:guid', to: 'service_bindings#show'
-  get '/service_bindings', to: 'service_bindings#index'
-  delete '/service_bindings/:guid', to: 'service_bindings#destroy'
+  post '/service_bindings', to: 'service_bindings#create',
+    summary: 'Create a new service binding'
+  get '/service_bindings/:guid', to: 'service_bindings#show',
+    summary: 'Show a service binding'
+  get '/service_bindings', to: 'service_bindings#index',
+    summary: 'List all service bindings'
+  delete '/service_bindings/:guid', to: 'service_bindings#destroy',
+    summary: 'Destroy a service binding'
 
   # openapi
-  get '/openapi', to: 'openapi#show'
+  get '/openapi', to: 'openapi#show',
+    summary: 'Show the openapi spec'
 
   # errors
   match '404', to: 'errors#not_found', via: :all
